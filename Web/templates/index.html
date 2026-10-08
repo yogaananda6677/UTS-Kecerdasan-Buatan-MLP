@@ -28,11 +28,11 @@
                 </div>
                 <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
                     <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-700"></i>
-                    Akurasi Jurnal: 89.47% | Recall: 100%
+                    Akurasi Jurnal: {{ metrics.jurnal.metrik.accuracy }}%
                 </div>
                 <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
                     <i data-lucide="sliders" class="w-3.5 h-3.5 text-rose-700"></i>
-                    Akurasi Model Proyek: {{ metrics.proyek.smote_enn.accuracy }}% | Recall: {{ metrics.proyek.smote_enn.recall }}%
+                    Akurasi Proyek: {{ metrics.proyek.metrik.accuracy }}% | Recall: {{ metrics.proyek.metrik.recall }}%
                 </div>
             </div>
         </div>
@@ -67,25 +67,16 @@
             <!-- Form Body -->
             <form id="diagnosis-form" class="space-y-6" onsubmit="event.preventDefault(); submitDiagnosis();">
                 
-                <!-- Model Choice Switch -->
-                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
-                    <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">Pilih Model Pengujian</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 bg-white cursor-pointer hover:border-slate-400 transition has-[:checked]:border-rose-900 has-[:checked]:ring-1 has-[:checked]:ring-rose-900">
-                            <input type="radio" name="model_type" value="smote" checked class="mt-0.5 text-rose-900">
-                            <div>
-                                <span class="font-bold text-slate-900 block">Proposed MLP (SMOTE-ENN)</span>
-                                <span class="text-slate-500 text-[11px]">Rekomendasi jurnal: Recall tinggi untuk minimalkan salah diagnosis</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 bg-white cursor-pointer hover:border-slate-400 transition has-[:checked]:border-rose-900 has-[:checked]:ring-1 has-[:checked]:ring-rose-900">
-                            <input type="radio" name="model_type" value="baseline" class="mt-0.5 text-rose-900">
-                            <div>
-                                <span class="font-bold text-slate-900 block">Baseline MLP</span>
-                                <span class="text-slate-500 text-[11px]">Model MLP standar tanpa penanganan data tidak seimbang</span>
-                            </div>
-                        </label>
+                <!-- Model Information Banner -->
+                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3 text-xs">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <div>
+                            <span class="font-bold text-slate-900 block">Model Aktif: Multilayer Perceptron (MLP)</span>
+                            <span class="text-slate-500 text-[11px]">Topologi 13 &rarr; 64 (ReLU) &rarr; 32 (ReLU) &rarr; 1, Optimizer Adam (Standar Modul Praktikum & Baseline Jurnal)</span>
+                        </div>
                     </div>
+                    <span class="px-2.5 py-1 rounded bg-slate-200 text-slate-800 font-mono font-semibold text-[11px]">Akurasi: {{ metrics.proyek.metrik.accuracy }}%</span>
                 </div>
 
                 <!-- Section 1: Demografi & Vital Sign -->
@@ -340,11 +331,11 @@
                     </div>
                     <div class="flex justify-between border-b border-slate-800 py-1">
                         <span>Akurasi Model Proyek:</span>
-                        <strong class="text-emerald-400">{{ metrics.proyek.smote_enn.accuracy }}%</strong>
+                        <strong class="text-emerald-400">{{ metrics.proyek.metrik.accuracy }}%</strong>
                     </div>
                     <div class="flex justify-between py-1">
                         <span>Recall (Sensitivitas):</span>
-                        <strong class="text-emerald-400">{{ metrics.proyek.smote_enn.recall }}%</strong>
+                        <strong class="text-emerald-400">{{ metrics.proyek.metrik.recall }}%</strong>
                     </div>
                 </div>
             </div>

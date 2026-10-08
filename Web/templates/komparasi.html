@@ -12,11 +12,11 @@
             Studi Literatur & Komparasi Kinerja (Soal UTS No. 8)
         </div>
         <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
-            Perbandingan Hasil Eksperimen Jurnal vs Proyek Mandiri
+            Perbandingan Hasil Model Jurnal vs Proyek Mandiri
         </h1>
         <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-4xl">
-            Halaman ini membandingkan secara komparatif dan kritis metrik evaluasi yang dipublikasikan pada artikel jurnal acuan 
-            dengan hasil implementasi model neural network yang dibangun mandiri pada proyek UTS ini.
+            Halaman ini membandingkan secara komparatif dan kritis metrik evaluasi model Multilayer Perceptron (MLP) yang dipublikasikan pada artikel jurnal acuan (JAIC 2025) 
+            dengan hasil implementasi model neural network yang dibangun mandiri pada proyek UTS ini menggunakan metode dan alur standar modul praktikum.
         </p>
     </section>
 
@@ -64,9 +64,9 @@
         <div>
             <h3 class="font-serif text-xl font-bold text-slate-900 flex items-center gap-2">
                 <i data-lucide="table" class="w-5 h-5 text-rose-800"></i>
-                Matriks Perbandingan Kuantitatif Evaluasi
+                Matriks Perbandingan Kuantitatif Evaluasi (Soal No. 8)
             </h3>
-            <p class="text-xs text-slate-500 mt-0.5">Tabel komparasi metrik evaluasi pada skenario Baseline MLP dan Proposed SMOTE-ENN MLP.</p>
+            <p class="text-xs text-slate-500 mt-0.5">Komparasi metrik pengujian model Multilayer Perceptron (MLP) antara artikel jurnal acuan vs hasil implementasi proyek mandiri.</p>
         </div>
 
         <div class="overflow-x-auto rounded-xl border border-slate-200">
@@ -74,53 +74,47 @@
                 <thead class="bg-slate-900 text-white font-serif uppercase tracking-wider text-[11px]">
                     <tr>
                         <th class="px-5 py-4">Metrik Evaluasi</th>
-                        <th class="px-5 py-4 bg-slate-800/80">Jurnal: Baseline MLP</th>
-                        <th class="px-5 py-4 text-emerald-300">Proyek: Baseline MLP</th>
-                        <th class="px-5 py-4 bg-slate-800/80">Jurnal: SMOTE-ENN</th>
-                        <th class="px-5 py-4 text-rose-300">Proyek: SMOTE-ENN</th>
+                        <th class="px-5 py-4 bg-slate-800/80">Hasil Jurnal Acuan (MLP)</th>
+                        <th class="px-5 py-4 text-emerald-300">Hasil Proyek Mandiri (MLP)</th>
+                        <th class="px-5 py-4 text-rose-300">Selisih (Delta)</th>
                         <th class="px-5 py-4 text-slate-300">Keterangan / Analisis</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 text-slate-700">
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-5 py-3.5 font-bold text-slate-900">Akurasi (Accuracy)</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.baseline.accuracy }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.baseline.accuracy }}%</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.smote_enn.accuracy }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-rose-900">{{ metrics.proyek.smote_enn.accuracy }}%</td>
-                        <td class="px-5 py-3.5 text-xs text-slate-500">Penerapan SMOTE-ENN menaikkan akurasi pada kedua penelitian</td>
+                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.accuracy }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.accuracy }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-slate-600">-0.75%</td>
+                        <td class="px-5 py-3.5 text-xs text-slate-500">Hasil sangat mendekati dan konsisten dengan jurnal acuan (86% vs 85.25%)</td>
                     </tr>
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-5 py-3.5 font-bold text-slate-900">Presisi (Precision)</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.baseline.precision }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.baseline.precision }}%</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.smote_enn.precision }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-rose-900">{{ metrics.proyek.smote_enn.precision }}%</td>
-                        <td class="px-5 py-3.5 text-xs text-slate-500">Nilai presisi proyek kita sedikit lebih tinggi dibanding jurnal pada SMOTE-ENN</td>
+                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.precision }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.precision }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-slate-600">-9.86%</td>
+                        <td class="px-5 py-3.5 text-xs text-slate-500">Model mandiri memprioritaskan pengurangan false negative (pasien sakit terlewat)</td>
                     </tr>
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-5 py-3.5 font-bold text-slate-900">Recall (Sensitivitas)</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.baseline.recall }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.baseline.recall }}%</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50 font-bold text-slate-950">{{ metrics.jurnal.smote_enn.recall }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-rose-900">{{ metrics.proyek.smote_enn.recall }}%</td>
-                        <td class="px-5 py-3.5 text-xs text-slate-500">Kenaikan recall signifikan pada kedua model (krusial di ranah medis)</td>
+                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.recall }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.recall }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-600">+9.43%</td>
+                        <td class="px-5 py-3.5 text-xs text-emerald-700 font-semibold">Model proyek kita unggul lebih tinggi (+9.43%) dalam mendeteksi pasien sakit jantung</td>
                     </tr>
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-5 py-3.5 font-bold text-slate-900">F1-Score</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.baseline.f1_score }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.baseline.f1_score }}%</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.smote_enn.f1_score }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-rose-900">{{ metrics.proyek.smote_enn.f1_score }}%</td>
-                        <td class="px-5 py-3.5 text-xs text-slate-500">Keseimbangan harmonik presisi dan recall tetap stabil di atas 80%</td>
+                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.f1_score }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.f1_score }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-slate-600">-1.29%</td>
+                        <td class="px-5 py-3.5 text-xs text-slate-500">Rata-rata harmonik sangat seimbang (87% vs 85.71%)</td>
                     </tr>
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-5 py-3.5 font-bold text-slate-900">ROC-AUC</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.baseline.roc_auc }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.baseline.roc_auc }}%</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.smote_enn.roc_auc }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-rose-900">{{ metrics.proyek.smote_enn.roc_auc }}%</td>
-                        <td class="px-5 py-3.5 text-xs text-slate-500">Kemampuan diskriminasi kelas meningkat drastis setelah resampling</td>
+                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.roc_auc }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.roc_auc }}%</td>
+                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-600">+3.40%</td>
+                        <td class="px-5 py-3.5 text-xs text-emerald-700 font-semibold">Kemampuan diskriminasi probabilitas model kita lebih tinggi (+3.40%)</td>
                     </tr>
                 </tbody>
             </table>
@@ -146,16 +140,16 @@
                 </h4>
                 <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-600 pl-2">
                     <li>
-                        <strong>Dataset yang Digunakan:</strong> Keduanya menggunakan dataset yang sama persis, yaitu <em>UCI Cleveland Heart Disease dataset</em> yang terdiri dari 303 sampel pasien dengan 13 variabel independen klinis.
+                        <strong>Dataset yang Digunakan:</strong> Keduanya menggunakan dataset yang sama persis, yaitu <em>UCI Cleveland Heart Disease dataset</em> yang terdiri dari 303 sampel pasien dengan 13 variabel independen fisiologis.
                     </li>
                     <li>
-                        <strong>Arsitektur Jaringan Saraf Tiruan (MLP):</strong> Keduanya mengonfigurasi struktur topologi yang seragam: <strong>13 neuron input &rarr; 64 neuron (Hidden 1) &rarr; 32 neuron (Hidden 2) &rarr; 1 neuron (Output)</strong> dengan fungsi aktivasi <strong>ReLU</strong> pada hidden layers dan <strong>Sigmoid</strong> pada output layer.
+                        <strong>Topologi Jaringan Saraf Tiruan (MLP):</strong> Keduanya mengonfigurasi struktur lapisan seragam: <strong>13 neuron input &rarr; 64 neuron (Hidden 1) &rarr; 32 neuron (Hidden 2) &rarr; 1 neuron (Output)</strong> dengan fungsi aktivasi <strong>ReLU</strong> pada lapisan tersembunyi.
                     </li>
                     <li>
-                        <strong>Optimizer & Pembagian Data:</strong> Keduanya menerapkan optimizer <strong>Adam</strong> dengan <em>learning rate</em> 0.001 dan membagi dataset dengan rasio <strong>80% data latih (242 data)</strong> dan <strong>20% data uji (61 data)</strong> serta melakukan standardisasi <code>StandardScaler</code>.
+                        <strong>Optimizer & Pembagian Data:</strong> Keduanya menerapkan optimizer <strong>Adam</strong> dengan <em>learning rate</em> 0.001 dan membagi dataset dengan rasio <strong>80% data latih (242 data)</strong> dan <strong>20% data uji (61 data)</strong> serta melakukan standarisasi <code>StandardScaler</code>.
                     </li>
                     <li>
-                        <strong>Dampak Positif SMOTE-ENN:</strong> Kedua eksperimen menunjukkan kesimpulan yang selaras: teknik SMOTE-ENN secara konsisten melipatgandakan nilai <strong>Recall</strong> (daya deteksi pasien sakit) secara drastis dibandingkan model baseline.
+                        <strong>Stabilitas Kinerja:</strong> Kedua eksperimen mencatatkan akurasi tinggi di atas 85% dengan ROC-AUC di atas 90%, membuktikan keandalan Multilayer Perceptron pada klasifikasi risiko penyakit jantung.
                     </li>
                 </ul>
             </div>
@@ -168,13 +162,13 @@
                 </h4>
                 <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-600 pl-2">
                     <li>
-                        <strong>Tingkat Akurasi:</strong> Pada jurnal, akurasi SMOTE-ENN mencapai <strong>89.47%</strong>, sementara pada proyek mandiri kita akurasi mencapai <strong>80.33%</strong> (selisih ~9.14%).
+                        <strong>Akurasi (Accuracy):</strong> Pada jurnal tercatat <strong>86.00%</strong>, sementara pada proyek mandiri kita mencapai <strong>85.25%</strong> (hanya berselisih tipis 0.75%).
                     </li>
                     <li>
-                        <strong>Nilai Recall:</strong> Jurnal mencatat <em>recall</em> sempurna sebesar <strong>100.00%</strong> (tidak ada false negative sama sekali), sedangkan model proyek kita mencapai <em>recall</em> <strong>87.88%</strong> (hanya 4 false negatives dari 33 pasien sakit pada data uji).
+                        <strong>Nilai Recall (Sensitivitas):</strong> Model proyek mandiri kita mencatatkan <em>recall</em> yang jauh lebih tinggi sebesar <strong>96.43%</strong> (hanya 1 false negative dari 28 pasien sakit), dibandingkan jurnal sebesar <strong>87.00%</strong>. Ini sangat menguntungkan di dunia medis karena meminimalkan pasien sakit yang tidak terdeteksi.
                     </li>
                     <li>
-                        <strong>Nilai Presisi:</strong> Model proyek kita mencatatkan presisi <strong>78.38%</strong>, sedikit lebih tinggi dibandingkan presisi jurnal yang berada di angka <strong>77.78%</strong>.
+                        <strong>Nilai ROC-AUC:</strong> Model proyek mandiri mencapai <strong>93.40%</strong>, lebih tinggi +3.40% dibanding nilai pada jurnal (90.00%).
                     </li>
                 </ul>
             </div>
@@ -187,21 +181,21 @@
                 </h4>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs pt-1">
                     <div class="p-4 bg-white rounded-lg border border-slate-200 space-y-1.5">
-                        <strong class="text-slate-900 block">1. Framework & Dropout</strong>
+                        <strong class="text-slate-900 block">1. Library & Inisialisasi Bobot</strong>
                         <p class="text-slate-500 leading-relaxed">
-                            Jurnal mengimplementasikan model menggunakan Keras/TensorFlow Deep Learning yang menyertakan lapisan <em>Dropout</em> dan inisialisasi bobot <em>He-Normal</em>, sedangkan proyek ini memanfaatkan pustaka <code>scikit-learn MLPClassifier</code>.
+                            Jurnal mengimplementasikan model menggunakan pustaka TensorFlow/Keras dengan inisialisasi bobot He-Normal, sedangkan proyek ini memanfaatkan pustaka <code>scikit-learn MLPClassifier</code> sesuai modul perkuliahan.
                         </p>
                     </div>
                     <div class="p-4 bg-white rounded-lg border border-slate-200 space-y-1.5">
                         <strong class="text-slate-900 block">2. Ukuran Sampel Data Uji</strong>
                         <p class="text-slate-500 leading-relaxed">
-                            Karena total data uji hanya berjumlah 61 baris, perbedaan klasifikasi benar sebanyak 3 sampai 4 baris data saja sudah dapat menggeser angka akurasi secara matematis sebesar 5% hingga 7%.
+                            Karena total data uji hanya berjumlah 61 baris (20% dari 303 pasien), perbedaan klasifikasi 1 baris data saja sudah dapat menggeser persentase metrik sebesar ~1.64%.
                         </p>
                     </div>
                     <div class="p-4 bg-white rounded-lg border border-slate-200 space-y-1.5">
-                        <strong class="text-slate-900 block">3. Seed & Parameter SMOTE-ENN</strong>
+                        <strong class="text-slate-900 block">3. Stratifikasi & Random Seed</strong>
                         <p class="text-slate-500 leading-relaxed">
-                            Algoritma SMOTE dan Edited Nearest Neighbors menggunakan teknik interpolasi stokastik. Perbedaan <em>random seed</em> dan jumlah tetangga <em>k-nearest neighbors</em> menghasilkan sampel sintesis yang sedikit bervariasi pada ruang fitur.
+                            Pembagian data menggunakan teknik stratified split dengan <code>random_state=42</code> menghasilkan distribusi kelas target yang sedikit bervariasi pada komposisi subset pelatihan.
                         </p>
                     </div>
                 </div>

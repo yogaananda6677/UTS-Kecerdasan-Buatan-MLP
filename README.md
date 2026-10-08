@@ -4,8 +4,9 @@
 **Program Studi**: D3 Manajemen Informatika  
 **Kampus**: PSDKU Polinema di Kota Kediri  
 **Mata Kuliah**: Kecerdasan Buatan (Machine Learning / Deep Learning)  
-**Metode**: Artificial Neural Network (ANN) - Multilayer Perceptron (MLP) dengan Aktivasi ReLU & SMOTE-ENN Resampling  
+**Metode**: Artificial Neural Network (ANN) - Multilayer Perceptron (MLP) dengan Aktivasi ReLU  
 **Framework Web**: Python FastAPI + Uvicorn (Asynchronous High Performance)  
+**Repositori GitHub**: [https://github.com/yogaananda6677/UTS-Kecerdasan-Buatan-MLP](https://github.com/yogaananda6677/UTS-Kecerdasan-Buatan-MLP)
 
 ---
 
@@ -18,13 +19,13 @@ Penelitian ini mereplikasi dan mengkomparasikan hasil dari artikel jurnal ilmiah
 - **Afiliasi**: Program Studi Informatika, Fakultas Teknik dan Ilmu Komputer, Universitas Teknokrat Indonesia
 - **Publikasi**: *Journal of Applied Informatics and Computing (JAIC)*, Vol. 9, No. 3, June 2025, pp. 1034–1041
 - **Identifikasi**: e-ISSN: 2548-6861 | Akreditasi SINTA | **DOI**: `10.30871/jaic.v9i3.9337`
-- **File PDF**: Tersimpan di `UTS/Model/jurnal/Implementation_MLP_Heart_Disease_JAIC.pdf`
+- **Fokus Acuan Komparasi**: Mengacu pada pengujian model **Multilayer Perceptron (MLP)** pada dataset Cleveland Heart Disease.
 
 ---
 
 ## 2. Deskripsi Dataset
 
-- **Sumber**: UCI Machine Learning Repository / Kaggle - *Cleveland Heart Disease Dataset*
+- **Sumber**: UCI Machine Learning Repository - *Cleveland Heart Disease Dataset*
 - **Jumlah Data**: 303 baris data pasien
 - **Jumlah Fitur**: 13 variabel fisiologis & klinis kardiologi:
   1. `age`: Usia pasien (tahun)
@@ -44,18 +45,20 @@ Penelitian ini mereplikasi dan mengkomparasikan hasil dari artikel jurnal ilmiah
 - **Distribusi Target**:
   - Kelas 0 (Sehat): 164 sampel (54.1%)
   - Kelas 1 (Penyakit Jantung): 139 sampel (45.9%)
-- **Data Preprocessing**: Imputasi missing values (`ca` & `thal`), penanganan outlier (IQR capping), Standard Scaling (`StandardScaler`), dan SMOTE-ENN Resampling untuk mengatasi noise dan ketidakseimbangan kelas minoritas.
+- **Data Preprocessing**: Imputasi data hilang (`ca` & `thal`), Standard Scaling (`StandardScaler`), dan pembagian Stratified Train-Test Split (80% Latih : 20% Uji) sesuai modul kuliah.
 
 ---
 
 ## 3. Arsitektur & Hyperparameter Multilayer Perceptron (MLP)
+
+Model dibangun murni menggunakan pustaka **Scikit-Learn `MLPClassifier`** sesuai alur modul praktikum Bab 6:
 
 | Komponen Topologi | Konfigurasi Model | Keterangan Fungsional |
 | :--- | :--- | :--- |
 | **Input Layer** | 13 Neuron | Menerima 13 fitur klinis kardiologi terstandarisasi |
 | **Hidden Layer 1** | 64 Neuron (ReLU) | Ekstraksi fitur non-linear tahap pertama |
 | **Hidden Layer 2** | 32 Neuron (ReLU) | Representasi fitur laten risiko kardiovaskular |
-| **Output Layer** | 1 Neuron (Sigmoid / Binary Log-Loss) | Klasifikasi probabilitas risiko penyakit jantung |
+| **Output Layer** | 1 Neuron (Sigmoid / Binary Log-Loss) | Estimasi probabilitas risiko penyakit jantung |
 | **Optimizer** | Adam (`learning_rate=0.001`) | Adaptive Moment Estimation |
 | **Loss Function** | Binary Cross-Entropy / Log-Loss | Pengukuran galat optimasi probabilitas biner |
 | **Maks Iterasi** | 1000 Iterasi | Menjamin konvergensi penuh konveks |
@@ -65,23 +68,20 @@ Penelitian ini mereplikasi dan mengkomparasikan hasil dari artikel jurnal ilmiah
 
 ## 4. Komparasi Evaluasi: Jurnal Acuan vs Pengujian Mandiri (Soal UTS No. 8)
 
-Tabel berikut menyajikan hasil komparasi kuantitatif antara model baseline (tanpa resampling) dan model proposed (dengan SMOTE-ENN):
+Tabel berikut menyajikan hasil komparasi kuantitatif antara model MLP pada jurnal acuan dan model MLP yang diimplementasikan mandiri pada proyek ini:
 
-| Metrik Evaluasi | Jurnal (Baseline) | Proyek Kita (Baseline) | Jurnal (Proposed SMOTE-ENN) | Proyek Kita (Proposed SMOTE-ENN) | Selisih Proposed |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Akurasi** | 86.00% | **85.25%** | 89.47% | **86.89%** | -2.58% |
-| **Presisi** | 87.00% | **77.14%** | 77.78% | **83.33%** | **+5.55%** |
-| **Recall (Sensitivitas)** | 87.00% | **96.43%** | 100.00% | **89.29%** | -10.71% |
-| **F1-Score** | 87.00% | **85.71%** | 87.50% | **86.21%** | -1.29% |
-| **ROC-AUC** | 90.00% | **93.40%** | 97.00% | **95.35%** | -1.65% |
+| Metrik Evaluasi | Hasil Jurnal Acuan (MLP) | Hasil Proyek Mandiri (MLP) | Selisih (Delta) | Keterangan / Analisis |
+| :--- | :---: | :---: | :---: | :--- |
+| **Akurasi (Accuracy)** | 86.00% | **85.25%** | **-0.75%** | Sangat mendekati dan konsisten dengan hasil jurnal acuan |
+| **Presisi (Precision)** | 87.00% | **77.14%** | -9.86% | Menekan false negative pada kasus kardiovaskular |
+| **Recall (Sensitivitas)** | 87.00% | **96.43%** | **+9.43%** | Model proyek unggul lebih tinggi dalam mendeteksi pasien berisiko |
+| **F1-Score** | 87.00% | **85.71%** | -1.29% | Keseimbangan harmonik presisi dan recall tetap stabil |
+| **ROC-AUC** | 90.00% | **93.40%** | **+3.40%** | Kemampuan diskriminasi kelas probabilitas lebih optimal |
 
 ### Analisis Kritis Perbedaan Hasil (Jawaban Soal No. 8):
-1. **Perbedaan Engine & Arsitektur Framework**:
-   Jurnal acuan mengimplementasikan model menggunakan pustaka **TensorFlow / Keras** dengan lapisan `Dropout(0.2)` dan inisialisasi bobot `He-Normal`. Pada proyek ini, model diimplementasikan secara portabel menggunakan **Scikit-Learn `MLPClassifier`** dengan L2 regularization (`alpha=0.001`), menghasilkan sedikit perbedaan pada batas keputusan (*decision boundary*).
-2. **Ukuran Sampel Uji (*Sample Size*)**:
-   Uji coba dilakukan pada data uji berukuran 61 data (20% dari 303 pasien). Perbedaan klasifikasi pada 1 atau 2 data pasien saja dapat menggeser angka persentase metrik sebesar ~1.6% - 3.2%.
-3. **Validitas Konsistensi Klinis**:
-   Meskipun terdapat deviasi angka minor, tren ilmiah yang dihasilkan **sepenuhnya konsisten dengan temuan jurnal**: Penerapan teknik gabungan oversampling SMOTE dan undersampling ENN terbukti meningkatkan performa deteksi dan menekan angka *False Negative* pada kasus klinis kardiovaskular.
+1. **Persamaan**: Keduanya menggunakan dataset UCI Cleveland Heart Disease yang sama (303 sampel, 13 fitur), topologi tersembunyi yang seragam (64 dan 32 neuron ReLU), optimizer Adam dengan learning rate 0.001, serta pembagian data 80% latih dan 20% uji dengan `StandardScaler`.
+2. **Perbedaan & Keunggulan**: Model mandiri kita mencatatkan nilai **Recall 96.43%** (hanya 1 false negative dari 28 pasien sakit), yang secara klinis jauh lebih aman untuk skrining jantung dibanding jurnal (87.00%).
+3. **Penyebab Variasi Numerik**: Perbedaan framework (Jurnal menggunakan TensorFlow/Keras sedangkan proyek menggunakan Scikit-Learn MLPClassifier) serta ukuran data uji sebesar 61 baris di mana selisih 1 pasien benar menggeser akurasi sebesar ~1.64%.
 
 ---
 
@@ -90,39 +90,33 @@ Tabel berikut menyajikan hasil komparasi kuantitatif antara model baseline (tanp
 ```text
 UTS/
 ├── Model/                                  # Folder Pelatihan & Eksperimen Model
-│   ├── Train_model.py                      # Script pelatihan model MLP & SMOTE-ENN
-│   ├── Test_model.py                       # Script evaluasi CLI & matriks konfusi
+│   ├── Train_model.py                      # Script pelatihan model MLP (Standar Modul)
+│   ├── Test_model.py                       # Script evaluasi CLI interaktif
 │   ├── heart.csv                           # Dataset UCI Cleveland Heart Disease
-│   ├── model_mlp.pkl                       # Model MLP dengan SMOTE-ENN tersimpan
-│   ├── model_mlp_baseline.pkl              # Model MLP baseline tanpa resampling
+│   ├── model_mlp.pkl                       # Model MLP tersimpan
 │   ├── scaler.pkl                          # Objek StandardScaler terlatih
 │   ├── feature_names.pkl                   # Metadata nama fitur
-│   ├── metrics_comparison.json             # Hasil metrik evaluasi perbandingan
+│   ├── metrics_comparison.json             # Hasil metrik evaluasi komparasi
 │   └── jurnal/
-│       ├── Implementation_MLP_Heart_Disease_JAIC.pdf  # PDF Jurnal Acuan Resmi
+│       ├── Implementation_MLP_Heart_Disease_JAIC.pdf  # PDF Jurnal Acuan Resmi (SINTA)
 │       └── ringkasan_jurnal.md             # Catatan analisis metodologi jurnal
 │
-├── Web/                                    # Folder Aplikasi Web Flask (Deploy-Ready)
-│   ├── app.py                              # Backend Flask server & API routing
-│   ├── Procfile                            # Konfigurasi deployment Gunicorn
+├── Web/                                    # Folder Aplikasi Web FastAPI (Deploy-Ready)
+│   ├── main.py                             # Backend FastAPI server & API routing
+│   ├── app.py                              # Entrypoint runner Uvicorn
+│   ├── Procfile                            # Konfigurasi deployment hosting cloud
 │   ├── requirements.txt                    # Dependensi pustaka Python
 │   ├── run.sh                              # Script bash runner lokal
 │   ├── heart.csv                           # Salinan dataset
 │   ├── models/                             # Artefak model hasil pelatihan
 │   │   ├── model_mlp.pkl
-│   │   ├── model_mlp_baseline.pkl
 │   │   ├── scaler.pkl
 │   │   ├── feature_names.pkl
 │   │   └── metrics_comparison.json
-│   ├── static/                             # Aset frontend
-│   │   ├── css/
-│   │   │   └── style.css                   # Desain estetik editorial akademis
-│   │   └── js/
-│   │       ├── main.js                     # Logika form diagnosis interaktif
-│   │       └── comparison.js               # Visualisasi grafik Chart.js komparasi
-│   └── templates/                          # Template antarmuka Flask Jinja2
+│   ├── static/                             # Aset frontend (CSS & JS)
+│   └── templates/                          # Template antarmuka Jinja2
 │       ├── base.html                       # Layout dasar berstandar akademik Polinema
-│       ├── index.html                      # Halaman diagnosis mandiri & preset
+│       ├── index.html                      # Halaman diagnosis mandiri & shortcut preset
 │       ├── komparasi.html                  # Halaman komparasi jurnal vs mandiri (No. 8)
 │       └── arsitektur.html                 # Halaman detail topologi MLP & kamus data
 └── README.md                               # Dokumentasi komprehensif proyek
@@ -142,7 +136,7 @@ Buka terminal dan masuk ke folder `UTS/Model`:
 cd "UTS/Model"
 python3 Train_model.py
 ```
-*Output akan menampilkan proses pelatihan, evaluasi metrik, dan menyimpan file `.pkl`.*
+*Output akan menampilkan proses pelatihan, evaluasi metrik, dan menyimpan file `model_mlp.pkl`.*
 
 Untuk menguji performa model via CLI:
 ```bash
@@ -167,40 +161,14 @@ Aplikasi akan aktif di:
 
 ## 7. Panduan Deployment Online (Sesuai Soal UTS No. 4)
 
-Proyek ini telah dikonfigurasi siap pakai untuk hosting cloud gratis / berbayar (seperti **Render.com**, **Railway.app**, atau **PythonAnywhere**):
+Proyek ini telah dikonfigurasi siap pakai untuk hosting cloud gratis (seperti **Render.com** atau **Railway.app**):
 
-### Opsi A: Deployment ke Render.com (Direkomendasikan)
-1. Buat repository baru di GitHub dan unggah folder `UTS/Web` (atau seluruh repository).
-2. Masuk ke [dashboard.render.com](https://dashboard.render.com) dan klik **New Web Service**.
-3. Hubungkan repository GitHub Anda.
-4. Tentukan konfigurasi:
-   - **Root Directory**: `UTS/Web`
+### Deployment ke Render.com
+1. Buka [dashboard.render.com](https://dashboard.render.com) dan klik **New Web Service**.
+2. Hubungkan repository GitHub: `https://github.com/yogaananda6677/UTS-Kecerdasan-Buatan-MLP`.
+3. Tentukan konfigurasi:
+   - **Root Directory**: `Web`
    - **Environment**: `Python 3`
    - **Build Command**: `pip install -r requirements.txt`
    - **Start Command**: `uvicorn app:app --host 0.0.0.0 --port $PORT`
-5. Klik **Create Web Service**. URL publik web akan aktif dalam beberapa menit.
-
-### Opsi B: Deployment ke PythonAnywhere
-1. Buka [PythonAnywhere](https://www.pythonanywhere.com) dan buat akun.
-2. Upload berkas dari folder `UTS/Web`.
-3. Di tab **Web**, pilih framework **Flask (Python 3.10+)**.
-4. Set path file WSGI ke `app.py`.
-5. Reload web app.
-
----
-
-## 8. Panduan Halaman Antarmuka Web
-
-1. **Dashboard Diagnosis Mandiri (`/`)**:
-   - Memasukkan 13 parameter klinis pasien secara intuitif.
-   - Tersedia tombol cepat **Contoh Kasus Sehat** dan **Contoh Kasus Sakit** untuk demonstrasi langsung di depan penguji/dosen.
-   - Pilihan model: *Proposed SMOTE-ENN* atau *Baseline MLP*.
-   - Menghasilkan status risiko klinis, tingkat keyakinan probabilitas (%), dan rekomendasi tindakan medis preventif.
-2. **Komparasi Jurnal vs Proyek (`/komparasi`)**:
-   - Menjawab Soal UTS Nomor 8.
-   - Menyajikan tabel komparasi 5 metrik evaluasi (Akurasi, Presisi, Recall, F1-Score, ROC-AUC).
-   - Visualisasi grafik batang interaktif (Chart.js).
-   - Penjelasan komprehensif faktor penyebab selisih performa model.
-3. **Arsitektur Jaringan Syaraf (`/arsitektur`)**:
-   - Diagram topologi interaktif `13 -> 64 -> 32 -> 16 -> 1`.
-   - Kamus data lengkap 13 fitur kardiologi beserta satuan dan interpretasi medisnya.
+4. Klik **Create Web Service**. URL publik web akan aktif dalam beberapa menit.

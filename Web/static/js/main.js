@@ -70,9 +70,6 @@ async function submitDiagnosis() {
         payload[f] = parseFloat(el.value);
     }
 
-    const modelType = document.querySelector('input[name="model_type"]:checked').value;
-    payload["model_type"] = modelType;
-
     // Loading state
     btnSubmit.disabled = true;
     btnText.innerText = "Mengevaluasi Model Neural Network...";

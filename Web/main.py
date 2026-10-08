@@ -1,10 +1,9 @@
 import json
 import os
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any
 
 import joblib
-import numpy as np
 import pandas as pd
 import uvicorn
 from fastapi import FastAPI, Request, HTTPException
@@ -23,7 +22,7 @@ DATASET_PATH = BASE_DIR / "heart.csv"
 # Inisialisasi FastAPI App
 app = FastAPI(
     title="CardioMLP Analytics - Prediksi Penyakit Jantung (MLP)",
-    description="Sistem Cerdas Klasifikasi Risiko Penyakit Jantung Berbasis Multilayer Perceptron & SMOTE-ENN (UTS Kecerdasan Buatan)",
+    description="Sistem Cerdas Klasifikasi Risiko Penyakit Jantung Berbasis Multilayer Perceptron (UTS Kecerdasan Buatan)",
     version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
@@ -35,8 +34,7 @@ templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 # Muat Model, Scaler, dan Metrik Komparasi
 try:
-    model_smote = joblib.load(MODELS_DIR / "model_mlp.pkl")
-    model_baseline = joblib.load(MODELS_DIR / "model_mlp_baseline.pkl")
+    model = joblib.load(MODELS_DIR / "model_mlp.pkl")
     scaler = joblib.load(MODELS_DIR / "scaler.pkl")
     feature_names = joblib.load(MODELS_DIR / "feature_names.pkl")
     with open(MODELS_DIR / "metrics_comparison.json", "r") as f:
@@ -63,7 +61,6 @@ FEATURE_INFO = {
 
 # Schema Request Pydantic
 class HeartDiagnosisRequest(BaseModel):
-    model_type: str = Field(default="smote", description="Pilihan model: 'smote' atau 'baseline'")
     age: float = Field(..., ge=1, le=120, description="Usia pasien")
     sex: float = Field(..., ge=0, le=1, description="Jenis kelamin: 1 (Laki-laki) atau 0 (Perempuan)")
     cp: float = Field(..., ge=1, le=4, description="Tipe nyeri dada: 1..4")
@@ -150,7 +147,6 @@ async def page_arsitektur(request: Request):
 @app.post("/api/predict")
 async def api_predict(payload: HeartDiagnosisRequest):
     try:
-        model_type = payload.model_type.lower()
         req_dict = payload.model_dump()
 
         input_values = []
@@ -162,9 +158,8 @@ async def api_predict(payload: HeartDiagnosisRequest):
         df_input = pd.DataFrame([input_values], columns=feature_names)
         input_scaled = scaler.transform(df_input)
 
-        active_model = model_smote if model_type == "smote" else model_baseline
-        prediction = int(active_model.predict(input_scaled)[0])
-        probabilities = active_model.predict_proba(input_scaled)[0]
+        prediction = int(model.predict(input_scaled)[0])
+        probabilities = model.predict_proba(input_scaled)[0]
         prob_sehat = round(float(probabilities[0]) * 100, 2)
         prob_sakit = round(float(probabilities[1]) * 100, 2)
 
@@ -174,7 +169,7 @@ async def api_predict(payload: HeartDiagnosisRequest):
             "success": True,
             "prediksi": prediction,
             "label": "Penyakit Jantung" if prediction == 1 else "Sehat",
-            "model_digunakan": "MLP + SMOTE-ENN (Proposed Jurnal)" if model_type == "smote" else "Baseline MLP",
+            "model_digunakan": "Multilayer Perceptron (MLP) ReLU",
             "probabilitas": {
                 "sehat": prob_sehat,
                 "sakit": prob_sakit
