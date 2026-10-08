@@ -1,0 +1,24 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual Environments
+venv/
+env/
+.venv/
+ENV/
+
+# OS Generated
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Environment Variables
+.env
+.env.local

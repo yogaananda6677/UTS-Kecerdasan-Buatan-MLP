@@ -1,0 +1,65 @@
+{
+    "jurnal": {
+        "judul": "Implementation of Deep Learning with Multilayer Perceptron (MLP) for Heart Disease Prediction Using the SMOTE-ENN Technique",
+        "penulis": "Erik Saputra & Erliyan Redy Susanto",
+        "institusi": "Universitas Teknokrat Indonesia",
+        "jurnal_nama": "Journal of Applied Informatics and Computing (JAIC)",
+        "edisi": "Vol. 9, No. 3, June 2025, pp. 1034-1041",
+        "doi": "10.30871/jaic.v9i3.9337",
+        "dataset_sumber": "UCI Machine Learning Repository (Heart Disease Cleveland)",
+        "baseline": {
+            "accuracy": 86.0,
+            "precision": 87.0,
+            "recall": 87.0,
+            "f1_score": 87.0,
+            "roc_auc": 90.0
+        },
+        "smote_enn": {
+            "accuracy": 89.47,
+            "precision": 77.78,
+            "recall": 100.0,
+            "f1_score": 87.5,
+            "roc_auc": 97.0
+        }
+    },
+    "proyek": {
+        "dataset_total": 303,
+        "train_count": 242,
+        "test_count": 61,
+        "arsitektur": "MLP (Input: 13, Hidden 1: 64 [ReLU], Hidden 2: 32 [ReLU], Output: 1 [Sigmoid])",
+        "baseline": {
+            "accuracy": 85.25,
+            "precision": 77.14,
+            "recall": 96.43,
+            "f1_score": 85.71,
+            "roc_auc": 93.4,
+            "cm": [
+                [
+                    25,
+                    8
+                ],
+                [
+                    1,
+                    27
+                ]
+            ]
+        },
+        "smote_enn": {
+            "accuracy": 86.89,
+            "precision": 83.33,
+            "recall": 89.29,
+            "f1_score": 86.21,
+            "roc_auc": 95.35,
+            "cm": [
+                [
+                    28,
+                    5
+                ],
+                [
+                    3,
+                    25
+                ]
+            ]
+        }
+    }
+}
