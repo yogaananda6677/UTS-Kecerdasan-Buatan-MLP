@@ -1,208 +1,118 @@
 {% extends "base.html" %}
 
-{% block title %}Studi Komparasi Jurnal Ilmiah vs Implementasi Proyek{% endblock %}
+{% block title %}Studi Komparasi Jurnal Ilmiah (Soal UTS No. 8){% endblock %}
 
 {% block content %}
-<div class="space-y-10">
+<div class="space-y-6">
 
-    <!-- Header Section -->
-    <section class="bg-white border border-slate-200 rounded-2xl p-8 sm:p-10 shadow-sm space-y-4">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold">
-            <i data-lucide="book-open" class="w-3.5 h-3.5 text-slate-700"></i>
-            Studi Literatur & Komparasi Kinerja (Soal UTS No. 8)
-        </div>
-        <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
-            Perbandingan Hasil Model Jurnal vs Proyek Mandiri
+    <div class="pb-3 border-b border-slate-200">
+        <h1 class="font-serif text-2xl font-bold text-slate-900 tracking-tight">
+            Komparasi Model Jurnal vs Proyek Mandiri
         </h1>
-        <p class="text-slate-600 text-sm sm:text-base leading-relaxed max-w-4xl">
-            Halaman ini membandingkan secara komparatif dan kritis metrik evaluasi model Multilayer Perceptron (MLP) yang dipublikasikan pada artikel jurnal acuan (JAIC 2025) 
-            dengan hasil implementasi model neural network yang dibangun mandiri pada proyek UTS ini menggunakan metode dan alur standar modul praktikum.
+        <p class="text-xs text-slate-500 mt-0.5">
+            Evaluasi metrik Multilayer Perceptron (MLP) antara artikel acuan (JAIC 2025) dengan pengujian mandiri proyek UTS (Soal No. 8).
         </p>
-    </section>
+    </div>
 
-    <!-- Reference Paper Card (Citation & Info) -->
-    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+    <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
             <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-rose-900">Artikel Jurnal Acuan Utama</span>
-                <h2 class="font-serif text-xl sm:text-2xl font-bold text-slate-900 mt-1 leading-snug">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-rose-700">Artikel Jurnal Acuan</span>
+                <h2 class="font-serif text-base sm:text-lg font-bold text-slate-900 mt-0.5">
                     {{ metrics.jurnal.judul }}
                 </h2>
+                <p class="text-xs text-slate-500 mt-0.5">
+                    {{ metrics.jurnal.penulis }} &bull; <em>{{ metrics.jurnal.jurnal_nama }}</em> ({{ metrics.jurnal.edisi }})
+                </p>
             </div>
-            <a href="https://doi.org/10.30871/jaic.v9i3.9337" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition shrink-0">
-                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-                Lihat Publikasi Asli
+            <a href="https://doi.org/10.30871/jaic.v9i3.9337" target="_blank" class="btn-primary text-xs shrink-0 py-2 px-3 self-start sm:self-auto">
+                <i data-lucide="external-link" class="w-3.5 h-3.5 mr-1.5"></i>
+                DOI Jurnal
             </a>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <span class="text-slate-500 font-medium block">Penulis:</span>
-                <strong class="text-slate-900 text-sm mt-0.5 block">{{ metrics.jurnal.penulis }}</strong>
-                <span class="text-slate-500 text-[11px]">{{ metrics.jurnal.institusi }}</span>
-            </div>
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <span class="text-slate-500 font-medium block">Jurnal & Penerbit:</span>
-                <strong class="text-slate-900 text-sm mt-0.5 block">{{ metrics.jurnal.jurnal_nama }}</strong>
-                <span class="text-slate-500 text-[11px]">Politeknik Negeri Batam (Polibatam)</span>
-            </div>
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <span class="text-slate-500 font-medium block">Edisi & Akreditasi:</span>
-                <strong class="text-slate-900 text-sm mt-0.5 block">{{ metrics.jurnal.edisi }}</strong>
-                <span class="text-emerald-700 font-semibold text-[11px]">Terindeks SINTA (Jurnal Nasional)</span>
-            </div>
-            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                <span class="text-slate-500 font-medium block">Sumber Dataset:</span>
-                <strong class="text-slate-900 text-sm mt-0.5 block">{{ metrics.jurnal.dataset_sumber }}</strong>
-                <span class="text-slate-500 text-[11px]">303 Sampel, 13 Fitur Klinis</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Side-by-Side Comparison Tables -->
-    <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-        <div>
-            <h3 class="font-serif text-xl font-bold text-slate-900 flex items-center gap-2">
-                <i data-lucide="table" class="w-5 h-5 text-rose-800"></i>
-                Matriks Perbandingan Kuantitatif Evaluasi (Soal No. 8)
-            </h3>
-            <p class="text-xs text-slate-500 mt-0.5">Komparasi metrik pengujian model Multilayer Perceptron (MLP) antara artikel jurnal acuan vs hasil implementasi proyek mandiri.</p>
-        </div>
-
-        <div class="overflow-x-auto rounded-xl border border-slate-200">
-            <table class="w-full text-left text-xs sm:text-sm">
-                <thead class="bg-slate-900 text-white font-serif uppercase tracking-wider text-[11px]">
+        <div class="overflow-x-auto rounded-lg border border-slate-200">
+            <table class="w-full text-left text-xs">
+                <thead class="bg-slate-900 text-white uppercase tracking-wider text-[11px]">
                     <tr>
-                        <th class="px-5 py-4">Metrik Evaluasi</th>
-                        <th class="px-5 py-4 bg-slate-800/80">Hasil Jurnal Acuan (MLP)</th>
-                        <th class="px-5 py-4 text-emerald-300">Hasil Proyek Mandiri (MLP)</th>
-                        <th class="px-5 py-4 text-rose-300">Selisih (Delta)</th>
-                        <th class="px-5 py-4 text-slate-300">Keterangan / Analisis</th>
+                        <th class="px-4 py-3">Metrik Evaluasi</th>
+                        <th class="px-4 py-3 bg-slate-800">Jurnal Acuan</th>
+                        <th class="px-4 py-3 text-emerald-300">Model Proyek UTS</th>
+                        <th class="px-4 py-3 text-rose-300">Selisih (Delta)</th>
+                        <th class="px-4 py-3 text-slate-300">Catatan Analisis</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-200 text-slate-700">
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="px-5 py-3.5 font-bold text-slate-900">Akurasi (Accuracy)</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.accuracy }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.accuracy }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-slate-600">-0.75%</td>
-                        <td class="px-5 py-3.5 text-xs text-slate-500">Hasil sangat mendekati dan konsisten dengan jurnal acuan (86% vs 85.25%)</td>
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-2.5 font-semibold text-slate-900">Akurasi (Accuracy)</td>
+                        <td class="px-4 py-2.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.accuracy }}%</td>
+                        <td class="px-4 py-2.5 font-mono font-bold text-slate-900">{{ metrics.proyek.metrik.accuracy }}%</td>
+                        <td class="px-4 py-2.5 font-mono text-slate-600">-0.75%</td>
+                        <td class="px-4 py-2.5 text-slate-500">Hasil konsisten dan mendekati jurnal (86% vs 85.25%)</td>
                     </tr>
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="px-5 py-3.5 font-bold text-slate-900">Presisi (Precision)</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.precision }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.precision }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-slate-600">-9.86%</td>
-                        <td class="px-5 py-3.5 text-xs text-slate-500">Model mandiri memprioritaskan pengurangan false negative (pasien sakit terlewat)</td>
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-2.5 font-semibold text-slate-900">Presisi (Precision)</td>
+                        <td class="px-4 py-2.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.precision }}%</td>
+                        <td class="px-4 py-2.5 font-mono font-bold text-slate-900">{{ metrics.proyek.metrik.precision }}%</td>
+                        <td class="px-4 py-2.5 font-mono text-slate-600">-9.86%</td>
+                        <td class="px-4 py-2.5 text-slate-500">Memprioritaskan penekanan false negative</td>
                     </tr>
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="px-5 py-3.5 font-bold text-slate-900">Recall (Sensitivitas)</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.recall }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.recall }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-600">+9.43%</td>
-                        <td class="px-5 py-3.5 text-xs text-emerald-700 font-semibold">Model proyek kita unggul lebih tinggi (+9.43%) dalam mendeteksi pasien sakit jantung</td>
+                    <tr class="hover:bg-slate-50 bg-emerald-50/50">
+                        <td class="px-4 py-2.5 font-semibold text-slate-900">Recall (Sensitivitas)</td>
+                        <td class="px-4 py-2.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.recall }}%</td>
+                        <td class="px-4 py-2.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.recall }}%</td>
+                        <td class="px-4 py-2.5 font-mono font-bold text-emerald-700">+9.43%</td>
+                        <td class="px-4 py-2.5 text-emerald-900 font-semibold">Unggul +9.43% dalam mendeteksi pasien berisiko sakit</td>
                     </tr>
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="px-5 py-3.5 font-bold text-slate-900">F1-Score</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.f1_score }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.f1_score }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-slate-600">-1.29%</td>
-                        <td class="px-5 py-3.5 text-xs text-slate-500">Rata-rata harmonik sangat seimbang (87% vs 85.71%)</td>
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-2.5 font-semibold text-slate-900">F1-Score</td>
+                        <td class="px-4 py-2.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.f1_score }}%</td>
+                        <td class="px-4 py-2.5 font-mono font-bold text-slate-900">{{ metrics.proyek.metrik.f1_score }}%</td>
+                        <td class="px-4 py-2.5 font-mono text-slate-600">-1.29%</td>
+                        <td class="px-4 py-2.5 text-slate-500">Keseimbangan harmonik tetap stabil (87% vs 85.71%)</td>
                     </tr>
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="px-5 py-3.5 font-bold text-slate-900">ROC-AUC</td>
-                        <td class="px-5 py-3.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.roc_auc }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.roc_auc }}%</td>
-                        <td class="px-5 py-3.5 font-mono font-bold text-emerald-600">+3.40%</td>
-                        <td class="px-5 py-3.5 text-xs text-emerald-700 font-semibold">Kemampuan diskriminasi probabilitas model kita lebih tinggi (+3.40%)</td>
+                    <tr class="hover:bg-slate-50 bg-emerald-50/50">
+                        <td class="px-4 py-2.5 font-semibold text-slate-900">ROC-AUC</td>
+                        <td class="px-4 py-2.5 font-mono bg-slate-50">{{ metrics.jurnal.metrik.roc_auc }}%</td>
+                        <td class="px-4 py-2.5 font-mono font-bold text-emerald-800">{{ metrics.proyek.metrik.roc_auc }}%</td>
+                        <td class="px-4 py-2.5 font-mono font-bold text-emerald-700">+3.40%</td>
+                        <td class="px-4 py-2.5 text-emerald-900 font-semibold">Kemampuan diskriminasi kelas probabilitas lebih optimal</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </section>
+    </div>
 
-    <!-- Deep Analysis Section (Jawaban Soal UTS Nomor 8) -->
-    <section class="bg-white border border-slate-200 rounded-2xl p-8 sm:p-10 shadow-sm space-y-8">
-        <div class="border-b border-slate-200 pb-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Pembahasan Evaluasi Soal UTS Nomor 8</span>
-            <h3 class="font-serif text-2xl font-bold text-slate-900 mt-1">
-                Analisis Persamaan, Perbedaan, dan Penyebab Variasi Kinerja
-            </h3>
-        </div>
+    <div class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm space-y-4">
+        <h3 class="font-serif text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">
+            Pembahasan Evaluasi Soal UTS Nomor 8
+        </h3>
 
-        <div class="space-y-6 text-sm text-slate-700 leading-relaxed">
+        <div class="space-y-4 text-xs text-slate-700 leading-relaxed">
             
-            <!-- Persamaan -->
-            <div class="p-6 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                <h4 class="font-serif font-bold text-base text-slate-900 flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center font-sans font-bold">1</span>
-                    Persamaan Antara Jurnal dan Proyek
-                </h4>
-                <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-600 pl-2">
-                    <li>
-                        <strong>Dataset yang Digunakan:</strong> Keduanya menggunakan dataset yang sama persis, yaitu <em>UCI Cleveland Heart Disease dataset</em> yang terdiri dari 303 sampel pasien dengan 13 variabel independen fisiologis.
-                    </li>
-                    <li>
-                        <strong>Topologi Jaringan Saraf Tiruan (MLP):</strong> Keduanya mengonfigurasi struktur lapisan seragam: <strong>13 neuron input &rarr; 64 neuron (Hidden 1) &rarr; 32 neuron (Hidden 2) &rarr; 1 neuron (Output)</strong> dengan fungsi aktivasi <strong>ReLU</strong> pada lapisan tersembunyi.
-                    </li>
-                    <li>
-                        <strong>Optimizer & Pembagian Data:</strong> Keduanya menerapkan optimizer <strong>Adam</strong> dengan <em>learning rate</em> 0.001 dan membagi dataset dengan rasio <strong>80% data latih (242 data)</strong> dan <strong>20% data uji (61 data)</strong> serta melakukan standarisasi <code>StandardScaler</code>.
-                    </li>
-                    <li>
-                        <strong>Stabilitas Kinerja:</strong> Kedua eksperimen mencatatkan akurasi tinggi di atas 85% dengan ROC-AUC di atas 90%, membuktikan keandalan Multilayer Perceptron pada klasifikasi risiko penyakit jantung.
-                    </li>
-                </ul>
+            <div class="p-3.5 bg-slate-50 rounded-lg border border-slate-200 space-y-1.5">
+                <strong class="text-slate-900 font-semibold block text-sm">1. Persamaan</strong>
+                <p class="text-slate-600">
+                    Kedua model menggunakan dataset identik (UCI Cleveland 303 pasien, 13 variabel fisiologis), topologi jaringan saraf tiruan seragam (13 &rarr; 64 ReLU &rarr; 32 ReLU &rarr; 1 Sigmoid), optimizer Adam (learning rate 0.001), dan rasio data latih 80% : uji 20% dengan StandardScaler.
+                </p>
             </div>
 
-            <!-- Perbedaan -->
-            <div class="p-6 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                <h4 class="font-serif font-bold text-base text-slate-900 flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center font-sans font-bold">2</span>
-                    Perbedaan Hasil Metrik Evaluasi
-                </h4>
-                <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm text-slate-600 pl-2">
-                    <li>
-                        <strong>Akurasi (Accuracy):</strong> Pada jurnal tercatat <strong>86.00%</strong>, sementara pada proyek mandiri kita mencapai <strong>85.25%</strong> (hanya berselisih tipis 0.75%).
-                    </li>
-                    <li>
-                        <strong>Nilai Recall (Sensitivitas):</strong> Model proyek mandiri kita mencatatkan <em>recall</em> yang jauh lebih tinggi sebesar <strong>96.43%</strong> (hanya 1 false negative dari 28 pasien sakit), dibandingkan jurnal sebesar <strong>87.00%</strong>. Ini sangat menguntungkan di dunia medis karena meminimalkan pasien sakit yang tidak terdeteksi.
-                    </li>
-                    <li>
-                        <strong>Nilai ROC-AUC:</strong> Model proyek mandiri mencapai <strong>93.40%</strong>, lebih tinggi +3.40% dibanding nilai pada jurnal (90.00%).
-                    </li>
-                </ul>
+            <div class="p-3.5 bg-slate-50 rounded-lg border border-slate-200 space-y-1.5">
+                <strong class="text-slate-900 font-semibold block text-sm">2. Perbedaan Kinerja</strong>
+                <p class="text-slate-600">
+                    Meskipun akurasi selisih tipis (-0.75%), model mandiri kita memiliki <strong>Recall 96.43%</strong> yang jauh lebih unggul dibandingkan jurnal (87.00%). Hanya terdapat 1 false negative dari 28 pasien berisiko di data uji, yang secara klinis jauh lebih aman untuk skrining jantung.
+                </p>
             </div>
 
-            <!-- Faktor Penyebab -->
-            <div class="p-6 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                <h4 class="font-serif font-bold text-base text-slate-900 flex items-center gap-2">
-                    <span class="w-6 h-6 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center font-sans font-bold">3</span>
-                    Kemungkinan Faktor Penyebab Perbedaan Hasil
-                </h4>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs pt-1">
-                    <div class="p-4 bg-white rounded-lg border border-slate-200 space-y-1.5">
-                        <strong class="text-slate-900 block">1. Library & Inisialisasi Bobot</strong>
-                        <p class="text-slate-500 leading-relaxed">
-                            Jurnal mengimplementasikan model menggunakan pustaka TensorFlow/Keras dengan inisialisasi bobot He-Normal, sedangkan proyek ini memanfaatkan pustaka <code>scikit-learn MLPClassifier</code> sesuai modul perkuliahan.
-                        </p>
-                    </div>
-                    <div class="p-4 bg-white rounded-lg border border-slate-200 space-y-1.5">
-                        <strong class="text-slate-900 block">2. Ukuran Sampel Data Uji</strong>
-                        <p class="text-slate-500 leading-relaxed">
-                            Karena total data uji hanya berjumlah 61 baris (20% dari 303 pasien), perbedaan klasifikasi 1 baris data saja sudah dapat menggeser persentase metrik sebesar ~1.64%.
-                        </p>
-                    </div>
-                    <div class="p-4 bg-white rounded-lg border border-slate-200 space-y-1.5">
-                        <strong class="text-slate-900 block">3. Stratifikasi & Random Seed</strong>
-                        <p class="text-slate-500 leading-relaxed">
-                            Pembagian data menggunakan teknik stratified split dengan <code>random_state=42</code> menghasilkan distribusi kelas target yang sedikit bervariasi pada komposisi subset pelatihan.
-                        </p>
-                    </div>
-                </div>
+            <div class="p-3.5 bg-slate-50 rounded-lg border border-slate-200 space-y-1.5">
+                <strong class="text-slate-900 font-semibold block text-sm">3. Penyebab Variasi Numerik</strong>
+                <p class="text-slate-600">
+                    Perbedaan pustaka (jurnal memakai TensorFlow/Keras sedangkan proyek memakai Scikit-Learn MLPClassifier) dan ukuran data uji sebesar 61 baris di mana selisih 1 pasien benar menggeser metrik sebesar ~1.64%.
+                </p>
             </div>
 
         </div>
-    </section>
+    </div>
 
 </div>
 {% endblock %}

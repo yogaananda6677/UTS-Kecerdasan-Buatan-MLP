@@ -1,204 +1,144 @@
 {% extends "base.html" %}
 
-{% block title %}Live Diagnosis & Pengujian Pasien Baru{% endblock %}
+{% block title %}Live Diagnosis & Prediksi Pasien{% endblock %}
 
 {% block content %}
-<div class="space-y-10">
+<div class="space-y-6">
 
-    <!-- Hero / Header Section -->
-    <section class="bg-white border border-slate-200 rounded-2xl p-8 sm:p-10 shadow-sm relative overflow-hidden">
-        <div class="max-w-3xl space-y-4">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-900 text-xs font-semibold">
-                <i data-lucide="award" class="w-3.5 h-3.5 text-rose-600"></i>
-                Proyek Tugas UTS Klasifikasi Machine Learning
-            </div>
-            <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight leading-tight">
-                Klasifikasi Risiko Penyakit Jantung Menggunakan <span class="text-rose-900 underline decoration-rose-300 underline-offset-4">Multilayer Perceptron (MLP)</span>
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
+        <div>
+            <h1 class="font-serif text-2xl font-bold text-slate-900 tracking-tight">
+                Prediksi Risiko Penyakit Jantung
             </h1>
-            <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-                Platform inferensi klinis berbasis jaringan saraf tiruan (Artificial Neural Network) dengan arsitektur 
-                <strong class="text-slate-800">13 Input &rarr; 64 Neuron (ReLU) &rarr; 32 Neuron (ReLU) &rarr; 1 Output (Sigmoid)</strong>. 
-                Mengintegrasikan teknik penyeimbang kelas <strong class="text-slate-800">SMOTE-ENN</strong> merujuk pada publikasi ilmiah 
-                <em>Journal of Applied Informatics and Computing (JAIC) 2025</em>.
+            <p class="text-xs text-slate-500 mt-0.5">
+                Klasifikasi Multilayer Perceptron (MLP) dengan 13 variabel klinis kardiologi UCI Cleveland.
             </p>
-            <div class="flex flex-wrap items-center gap-3 pt-2 text-xs font-medium text-slate-600">
-                <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-                    <i data-lucide="database" class="w-3.5 h-3.5 text-slate-700"></i>
-                    Dataset: UCI Cleveland (303 Pasien)
-                </div>
-                <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-                    <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-700"></i>
-                    Akurasi Jurnal: {{ metrics.jurnal.metrik.accuracy }}%
-                </div>
-                <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
-                    <i data-lucide="sliders" class="w-3.5 h-3.5 text-rose-700"></i>
-                    Akurasi Proyek: {{ metrics.proyek.metrik.accuracy }}% | Recall: {{ metrics.proyek.metrik.recall }}%
-                </div>
-            </div>
         </div>
-    </section>
+        <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400 font-medium">Isi Cepat:</span>
+            <button type="button" onclick="loadSampleCase(0)" class="btn-preset bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300">
+                Kasus Sehat
+            </button>
+            <button type="button" onclick="loadSampleCase(1)" class="btn-preset bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-300">
+                Kasus Berisiko
+            </button>
+        </div>
+    </div>
 
-    <!-- Diagnosis Workspace (Form & Result) -->
-    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        <!-- Form Column (7 Cols) -->
-        <div class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
-            
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200">
-                <div>
-                    <h2 class="font-serif text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <i data-lucide="stethoscope" class="w-5 h-5 text-rose-800"></i>
-                        Parameter Klinis Pasien Baru
-                    </h2>
-                    <p class="text-xs text-slate-500 mt-0.5">Isi seluruh 13 variabel fisiologis sesuai standar rekam medis kardiologi UCI.</p>
-                </div>
-                <!-- Quick Test Presets -->
-                <div class="flex items-center gap-2">
-                    <span class="text-xs text-slate-400 font-medium">Contoh:</span>
-                    <button type="button" onclick="loadSampleCase(0)" class="px-2.5 py-1 text-xs rounded-md bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-semibold transition">
-                        Kasus Sehat
-                    </button>
-                    <button type="button" onclick="loadSampleCase(1)" class="px-2.5 py-1 text-xs rounded-md bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 font-semibold transition">
-                        Kasus Sakit
-                    </button>
-                </div>
+        <div class="lg:col-span-7 bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <i data-lucide="stethoscope" class="w-4 h-4 text-rose-600"></i>
+                    Parameter Rekam Medis Pasien
+                </h2>
+                <span class="text-[11px] font-mono text-slate-400">13 Fitur Klinis</span>
             </div>
 
-            <!-- Form Body -->
-            <form id="diagnosis-form" class="space-y-6" onsubmit="event.preventDefault(); submitDiagnosis();">
+            <form id="diagnosis-form" class="space-y-4" onsubmit="event.preventDefault(); submitDiagnosis();">
                 
-                <!-- Model Information Banner -->
-                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3 text-xs">
-                    <div class="flex items-center gap-2.5">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <div>
-                            <span class="font-bold text-slate-900 block">Model Aktif: Multilayer Perceptron (MLP)</span>
-                            <span class="text-slate-500 text-[11px]">Topologi 13 &rarr; 64 (ReLU) &rarr; 32 (ReLU) &rarr; 1, Optimizer Adam (Standar Modul Praktikum & Baseline Jurnal)</span>
-                        </div>
-                    </div>
-                    <span class="px-2.5 py-1 rounded bg-slate-200 text-slate-800 font-mono font-semibold text-[11px]">Akurasi: {{ metrics.proyek.metrik.accuracy }}%</span>
-                </div>
-
-                <!-- Section 1: Demografi & Vital Sign -->
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-1">
+                <fieldset class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/50 space-y-2.5">
+                    <legend class="text-[11px] font-bold uppercase tracking-wider text-slate-500 px-1 bg-white border border-slate-200 rounded">
                         1. Data Demografis & Tekanan Darah
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <!-- Usia -->
+                    </legend>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Usia Pasien (Tahun)</label>
+                            <label for="age" class="block text-xs font-semibold text-slate-700 mb-1">Usia (Tahun)</label>
                             <input type="number" id="age" min="20" max="95" value="54" required class="form-input">
-                            <span class="text-[10px] text-slate-400">Rentang: 29 - 77 tahun</span>
+                            <span class="text-[10px] text-slate-400">Rentang: 29-77 th</span>
                         </div>
-                        <!-- Jenis Kelamin -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Kelamin</label>
+                            <label for="sex" class="block text-xs font-semibold text-slate-700 mb-1">Jenis Kelamin</label>
                             <select id="sex" class="form-input">
                                 <option value="1">1: Laki-laki</option>
                                 <option value="0">0: Perempuan</option>
                             </select>
-                            <span class="text-[10px] text-slate-400">Parameter biner UCI</span>
                         </div>
-                        <!-- Tekanan Darah -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Tekanan Darah (trestbps)</label>
+                            <label for="trestbps" class="block text-xs font-semibold text-slate-700 mb-1">Tekanan Darah</label>
                             <input type="number" id="trestbps" min="80" max="220" value="130" required class="form-input">
                             <span class="text-[10px] text-slate-400">mmHg (istirahat)</span>
                         </div>
                     </div>
-                </div>
+                </fieldset>
 
-                <!-- Section 2: Profil Lipid, Gula Darah & Nyeri Dada -->
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-1">
+                <fieldset class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/50 space-y-2.5">
+                    <legend class="text-[11px] font-bold uppercase tracking-wider text-slate-500 px-1 bg-white border border-slate-200 rounded">
                         2. Gejala Nyeri Dada & Pemeriksaan Darah
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <!-- Tipe Nyeri Dada -->
+                    </legend>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Tipe Nyeri Dada (cp)</label>
+                            <label for="cp" class="block text-xs font-semibold text-slate-700 mb-1">Nyeri Dada (cp)</label>
                             <select id="cp" class="form-input">
                                 <option value="1">1: Typical Angina</option>
                                 <option value="2">2: Atypical Angina</option>
-                                <option value="3">3: Non-anginal Pain</option>
+                                <option value="3">3: Non-anginal</option>
                                 <option value="4">4: Asymptomatic</option>
                             </select>
-                            <span class="text-[10px] text-slate-400">Klasifikasi kardiologi (1-4)</span>
                         </div>
-                        <!-- Kolesterol -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Kolesterol Serum (chol)</label>
+                            <label for="chol" class="block text-xs font-semibold text-slate-700 mb-1">Kolesterol Serum</label>
                             <input type="number" id="chol" min="100" max="600" value="230" required class="form-input">
-                            <span class="text-[10px] text-slate-400">mg/dL (normal &lt; 200)</span>
+                            <span class="text-[10px] text-slate-400">mg/dL</span>
                         </div>
-                        <!-- Gula Darah Puasa -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Gula Darah Puasa (fbs)</label>
+                            <label for="fbs" class="block text-xs font-semibold text-slate-700 mb-1">Gula Darah Puasa</label>
                             <select id="fbs" class="form-input">
                                 <option value="0">0: &le; 120 mg/dL (Normal)</option>
                                 <option value="1">1: &gt; 120 mg/dL (Tinggi)</option>
                             </select>
-                            <span class="text-[10px] text-slate-400">Skrining diabetes</span>
                         </div>
                     </div>
-                </div>
+                </fieldset>
 
-                <!-- Section 3: Uji Stres & Elektrokardiografi -->
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-1">
-                        3. Hasil EKG & Uji Stres Treadmill
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <!-- EKG Istirahat -->
+                <fieldset class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/50 space-y-2.5">
+                    <legend class="text-[11px] font-bold uppercase tracking-wider text-slate-500 px-1 bg-white border border-slate-200 rounded">
+                        3. EKG & Uji Stres Latihan
+                    </legend>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">EKG Istirahat (restecg)</label>
+                            <label for="restecg" class="block text-xs font-semibold text-slate-700 mb-1">EKG Istirahat</label>
                             <select id="restecg" class="form-input">
                                 <option value="0">0: Normal</option>
-                                <option value="1">1: Gelombang ST-T Abnormal</option>
-                                <option value="2">2: Hipertrofi Ventrikel Kiri</option>
+                                <option value="1">1: ST-T Abnormal</option>
+                                <option value="2">2: Hipertrofi Ventrikel</option>
                             </select>
                         </div>
-                        <!-- Detak Jantung Maksimal -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Max HR (thalach)</label>
+                            <label for="thalach" class="block text-xs font-semibold text-slate-700 mb-1">Max HR (Detak)</label>
                             <input type="number" id="thalach" min="60" max="220" value="150" required class="form-input">
-                            <span class="text-[10px] text-slate-400">bpm (detak maksimum)</span>
+                            <span class="text-[10px] text-slate-400">bpm</span>
                         </div>
-                        <!-- Angina Latihan -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Angina Olahraga (exang)</label>
+                            <label for="exang" class="block text-xs font-semibold text-slate-700 mb-1">Angina Latihan</label>
                             <select id="exang" class="form-input">
-                                <option value="0">0: Tidak Nyeri Dada</option>
-                                <option value="1">1: Terjadi Nyeri Dada</option>
+                                <option value="0">0: Tidak Nyeri</option>
+                                <option value="1">1: Nyeri Saat Uji</option>
                             </select>
                         </div>
                     </div>
-                </div>
+                </fieldset>
 
-                <!-- Section 4: Analisis ST & Fluoroskopi -->
-                <div class="space-y-4">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-1">
+                <fieldset class="border border-slate-200 rounded-lg p-3.5 bg-slate-50/50 space-y-2.5">
+                    <legend class="text-[11px] font-bold uppercase tracking-wider text-slate-500 px-1 bg-white border border-slate-200 rounded">
                         4. Parameter Fluoroskopi & Thalassemia
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                        <!-- Oldpeak -->
+                    </legend>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Oldpeak (ST Depresi)</label>
+                            <label for="oldpeak" class="block text-xs font-semibold text-slate-700 mb-1">Oldpeak (ST)</label>
                             <input type="number" step="0.1" id="oldpeak" min="0" max="7" value="1.0" required class="form-input">
                         </div>
-                        <!-- Slope -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Slope Segmen ST</label>
+                            <label for="slope" class="block text-xs font-semibold text-slate-700 mb-1">Slope ST</label>
                             <select id="slope" class="form-input">
                                 <option value="1">1: Upsloping</option>
                                 <option value="2">2: Flat</option>
                                 <option value="3">3: Downsloping</option>
                             </select>
                         </div>
-                        <!-- Pembuluh Darah Utama (ca) -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Pembuluh Utama (ca)</label>
+                            <label for="ca" class="block text-xs font-semibold text-slate-700 mb-1">Pembuluh (ca)</label>
                             <select id="ca" class="form-input">
                                 <option value="0">0 Pembuluh</option>
                                 <option value="1">1 Pembuluh</option>
@@ -206,32 +146,29 @@
                                 <option value="3">3 Pembuluh</option>
                             </select>
                         </div>
-                        <!-- Thalassemia -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 mb-1">Thal (Perfusi)</label>
+                            <label for="thal" class="block text-xs font-semibold text-slate-700 mb-1">Thalassemia</label>
                             <select id="thal" class="form-input">
                                 <option value="3" selected>3: Normal</option>
-                                <option value="6">6: Fixed Defect</option>
-                                <option value="7">7: Reversible Defect</option>
+                                <option value="6">6: Fixed</option>
+                                <option value="7">7: Reversible</option>
                             </select>
                         </div>
                     </div>
-                </div>
+                </fieldset>
 
-                <!-- Action Button -->
-                <div class="pt-2 flex items-center gap-3">
-                    <button type="submit" id="btn-submit"
-                        class="flex-1 py-3.5 px-6 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm shadow-md transition flex items-center justify-center gap-2">
-                        <i data-lucide="activity" class="w-4 h-4 text-rose-500"></i>
+                <div class="pt-1 flex items-center gap-2.5">
+                    <button type="submit" id="btn-submit" class="btn-primary flex-1">
+                        <i data-lucide="activity" class="w-4 h-4 text-rose-400 mr-2"></i>
                         <span id="btn-text">Klasifikasikan Risiko Pasien</span>
-                        <span id="btn-spinner" class="hidden">
+                        <span id="btn-spinner" class="hidden ml-2">
                             <svg class="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                             </svg>
                         </span>
                     </button>
-                    <button type="button" onclick="document.getElementById('diagnosis-form').reset()" class="p-3.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-600 transition" title="Reset Form">
+                    <button type="button" onclick="document.getElementById('diagnosis-form').reset()" class="p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 transition" title="Reset Form">
                         <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -239,110 +176,94 @@
             </form>
         </div>
 
-        <!-- Result Column (5 Cols) -->
-        <div class="lg:col-span-5 space-y-6">
+        <div class="lg:col-span-5 space-y-4">
 
-            <!-- Result Box -->
-            <div id="result-box" class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+            <div id="result-box" class="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-sm space-y-4">
                 
-                <div class="flex items-center justify-between border-b border-slate-200 pb-4">
-                    <h3 class="font-serif text-lg font-bold text-slate-900 flex items-center gap-2">
-                        <i data-lucide="file-text" class="w-5 h-5 text-rose-800"></i>
-                        Laporan Hasil Klasifikasi
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="file-text" class="w-4 h-4 text-rose-600"></i>
+                        Hasil Inferensi Model
                     </h3>
-                    <span id="res-timestamp" class="text-xs text-slate-400 font-mono">Standby</span>
+                    <span id="res-timestamp" class="text-[11px] text-slate-400 font-mono">Standby</span>
                 </div>
 
-                <!-- Placeholder state -->
-                <div id="result-placeholder" class="py-16 text-center space-y-3">
-                    <div class="w-14 h-14 mx-auto rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center">
-                        <i data-lucide="heart" class="w-7 h-7"></i>
+                <div id="result-placeholder" class="py-12 text-center space-y-2.5">
+                    <div class="w-10 h-10 mx-auto rounded-lg bg-slate-100 text-slate-400 flex items-center justify-center">
+                        <i data-lucide="heart" class="w-5 h-5"></i>
                     </div>
-                    <h4 class="text-sm font-semibold text-slate-700">Belum Ada Pengujian</h4>
-                    <p class="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">
-                        Lengkapi parameter klinis pada formulir di sebelah kiri atau pilih salah satu tombol contoh kasus untuk menjalankan evaluasi model.
+                    <h4 class="text-xs font-semibold text-slate-700">Menunggu Input Data</h4>
+                    <p class="text-[11px] text-slate-400 max-w-xs mx-auto leading-relaxed">
+                        Pilih tombol contoh kasus di atas atau isi parameter formulir lalu klik tombol klasifikasi.
                     </p>
                 </div>
 
-                <!-- Result Content -->
-                <div id="result-content" class="hidden space-y-6">
+                <div id="result-content" class="hidden space-y-4 animate-fadeIn">
                     
-                    <!-- Diagnosis Status Card -->
-                    <div id="status-card" class="p-6 rounded-xl border text-center space-y-2">
-                        <span class="text-[11px] font-bold tracking-wider uppercase opacity-80" id="res-model-badge">MODEL MLP + SMOTE-ENN</span>
-                        <div class="font-serif text-2xl font-bold tracking-tight" id="res-title">POSITIF BERISIKO PENYAKIT JANTUNG</div>
+                    <div id="status-card" class="p-4 rounded-lg border text-center space-y-1">
+                        <span class="text-[10px] font-bold tracking-wider uppercase opacity-85" id="res-model-badge">MODEL MLP ReLU</span>
+                        <div class="font-serif text-lg sm:text-xl font-bold tracking-tight" id="res-title">POSITIF BERISIKO PENYAKIT JANTUNG</div>
                         <p class="text-xs leading-relaxed pt-1 text-slate-700 text-left" id="res-kesimpulan"></p>
                     </div>
 
-                    <!-- Probability Bars -->
-                    <div class="space-y-3 pt-2 border-t border-slate-100">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Estimasi Probabilitas Model</h4>
-                        <div class="space-y-3 text-xs">
+                    <div class="space-y-2.5 pt-2 border-t border-slate-100">
+                        <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Estimasi Probabilitas</h4>
+                        <div class="space-y-2 text-xs">
                             <div>
                                 <div class="flex justify-between mb-1">
-                                    <span class="font-medium text-slate-700">Probabilitas Sakit Jantung</span>
-                                    <span class="font-bold text-rose-900" id="prob-sakit-txt">0%</span>
+                                    <span class="text-slate-600">Risiko Sakit Jantung</span>
+                                    <span class="font-mono font-bold text-rose-800" id="prob-sakit-txt">0%</span>
                                 </div>
-                                <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
-                                    <div id="prob-sakit-bar" class="bg-rose-900 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                <div class="w-full bg-slate-100 rounded-md h-2 overflow-hidden">
+                                    <div id="prob-sakit-bar" class="bg-rose-700 h-2 rounded-md transition-all duration-300" style="width: 0%"></div>
                                 </div>
                             </div>
                             <div>
                                 <div class="flex justify-between mb-1">
-                                    <span class="font-medium text-slate-700">Probabilitas Jantung Sehat</span>
-                                    <span class="font-bold text-emerald-800" id="prob-sehat-txt">0%</span>
+                                    <span class="text-slate-600">Kondisi Bebas Risiko (Sehat)</span>
+                                    <span class="font-mono font-bold text-emerald-800" id="prob-sehat-txt">0%</span>
                                 </div>
-                                <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
-                                    <div id="prob-sehat-bar" class="bg-emerald-700 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                                <div class="w-full bg-slate-100 rounded-md h-2 overflow-hidden">
+                                    <div id="prob-sehat-bar" class="bg-emerald-700 h-2 rounded-md transition-all duration-300" style="width: 0%"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Clinical Recommendations -->
-                    <div class="space-y-2.5 pt-2 border-t border-slate-100">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                            <i data-lucide="clipboard-check" class="w-4 h-4 text-rose-800"></i>
-                            Rekomendasi Penanganan Medis
+                    <div class="space-y-2 pt-2 border-t border-slate-100">
+                        <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                            <i data-lucide="clipboard-check" class="w-3.5 h-3.5 text-rose-600"></i>
+                            Rekomendasi Medis
                         </h4>
-                        <ul id="res-rekomendasi" class="space-y-2 text-xs text-slate-600 pl-2"></ul>
+                        <ul id="res-rekomendasi" class="space-y-1 text-xs text-slate-600 pl-1"></ul>
                     </div>
 
                 </div>
 
             </div>
 
-            <!-- Quick Mini Reference Card -->
-            <div class="bg-slate-900 text-slate-300 rounded-2xl p-6 border border-slate-800 text-xs space-y-3">
-                <div class="flex items-center justify-between text-white font-serif font-bold text-sm">
-                    <span>Arsitektur Model Proyek</span>
-                    <a href="/komparasi" class="text-rose-400 hover:text-rose-300 font-sans text-xs flex items-center gap-1">
-                        Lihat Komparasi Jurnal &rarr;
+            <div class="bg-white border border-slate-200 rounded-xl p-4 text-xs space-y-2">
+                <div class="flex items-center justify-between text-slate-900 font-semibold">
+                    <span>Kinerja Model UTS</span>
+                    <a href="/komparasi" class="text-rose-700 hover:text-rose-900 flex items-center gap-1 font-semibold text-[11px]">
+                        Komparasi Jurnal &rarr;
                     </a>
                 </div>
-                <div class="space-y-1.5 text-slate-400">
-                    <div class="flex justify-between border-b border-slate-800 py-1">
-                        <span>Jumlah Input / Fitur:</span>
-                        <strong class="text-slate-200">13 Fitur Klinis</strong>
+                <div class="grid grid-cols-2 gap-2 pt-1 text-center font-mono">
+                    <div class="p-2 rounded bg-slate-50 border border-slate-100">
+                        <span class="text-[10px] text-slate-500 font-sans block">Akurasi Uji</span>
+                        <strong class="text-slate-900 text-sm">{{ metrics.proyek.metrik.accuracy }}%</strong>
                     </div>
-                    <div class="flex justify-between border-b border-slate-800 py-1">
-                        <span>Hidden Layers:</span>
-                        <strong class="text-slate-200">Layer 1 (64) & Layer 2 (32)</strong>
-                    </div>
-                    <div class="flex justify-between border-b border-slate-800 py-1">
-                        <span>Akurasi Model Proyek:</span>
-                        <strong class="text-emerald-400">{{ metrics.proyek.metrik.accuracy }}%</strong>
-                    </div>
-                    <div class="flex justify-between py-1">
-                        <span>Recall (Sensitivitas):</span>
-                        <strong class="text-emerald-400">{{ metrics.proyek.metrik.recall }}%</strong>
+                    <div class="p-2 rounded bg-emerald-50/70 border border-emerald-100">
+                        <span class="text-[10px] text-emerald-800 font-sans block">Recall (Sensitivitas)</span>
+                        <strong class="text-emerald-800 text-sm">{{ metrics.proyek.metrik.recall }}%</strong>
                     </div>
                 </div>
             </div>
 
         </div>
 
-    </section>
+    </div>
 
 </div>
 {% endblock %}

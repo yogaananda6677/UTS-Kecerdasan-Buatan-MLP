@@ -104,9 +104,8 @@ def evaluasi_rekomendasi_medis(prediksi: int, prob_sakit: float) -> Dict[str, An
         "rekomendasi": rekomendasi
     }
 
-# ============================================================
-# ROUTING HALAMAN WEB (HTML RESPONSE)
-# ============================================================
+# Page routes
+
 
 @app.get("/", response_class=HTMLResponse, name="index")
 async def page_index(request: Request):
@@ -140,9 +139,8 @@ async def page_arsitektur(request: Request):
         }
     )
 
-# ============================================================
-# API ENDPOINTS (JSON RESPONSE)
-# ============================================================
+# Prediction and metrics endpoints
+
 
 @app.post("/api/predict")
 async def api_predict(payload: HeartDiagnosisRequest):

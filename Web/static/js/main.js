@@ -1,7 +1,4 @@
-// CardioMLP Analytics - Client Logic
-
 const SAMPLE_CASES = {
-    // Kasus Pasien Bebas Penyakit Jantung (Normal - UCI Sample Row 4)
     0: {
         age: 41,
         sex: 0,
@@ -17,7 +14,6 @@ const SAMPLE_CASES = {
         ca: 0,
         thal: 3
     },
-    // Kasus Pasien Terindikasi Penyakit Jantung (Sakit - UCI Sample Row 1)
     1: {
         age: 67,
         sex: 1,
@@ -46,7 +42,6 @@ function loadSampleCase(caseType) {
         }
     }
 
-    // Auto submit to view results
     submitDiagnosis();
 }
 
@@ -64,13 +59,12 @@ async function submitDiagnosis() {
     for (const f of fields) {
         const el = document.getElementById(f);
         if (!el || el.value === "") {
-            alert(`Parameter ${f} wajib diisi!`);
+            alert(`Parameter ${f} wajib diisi.`);
             return;
         }
         payload[f] = parseFloat(el.value);
     }
 
-    // Loading state
     btnSubmit.disabled = true;
     btnText.innerText = "Mengevaluasi Model Neural Network...";
     btnSpinner.classList.remove("hidden");
@@ -107,11 +101,9 @@ function renderDiagnosisResult(data) {
     placeholder.classList.add("hidden");
     content.classList.remove("hidden");
 
-    // Timestamp
     const now = new Date();
     document.getElementById("res-timestamp").innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    // Status Card
     const statusCard = document.getElementById("status-card");
     const title = document.getElementById("res-title");
     const kesimpulan = document.getElementById("res-kesimpulan");
@@ -121,9 +113,8 @@ function renderDiagnosisResult(data) {
     title.innerText = data.analisis.status_text.toUpperCase();
     kesimpulan.innerText = data.analisis.kesimpulan;
 
-    statusCard.className = "p-6 rounded-xl border text-center space-y-2 transition-all " + data.analisis.status_badge;
+    statusCard.className = "p-5 rounded-xl border text-center space-y-2 transition-all " + data.analisis.status_badge;
 
-    // Probabilities
     const pSakit = data.probabilitas.sakit;
     const pSehat = data.probabilitas.sehat;
 
@@ -133,7 +124,6 @@ function renderDiagnosisResult(data) {
     document.getElementById("prob-sehat-txt").innerText = `${pSehat}%`;
     document.getElementById("prob-sehat-bar").style.width = `${pSehat}%`;
 
-    // Rekomendasi
     const recList = document.getElementById("res-rekomendasi");
     recList.innerHTML = "";
     (data.analisis.rekomendasi || []).forEach(item => {
